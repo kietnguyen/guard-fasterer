@@ -1,13 +1,11 @@
-require 'guard/fasterer/version'
+require "guard/fasterer/version"
 
 module Guard
   class Fasterer < Plugin
     def initialize(options = {})
       super
 
-      @options = { run_on_start: false,
-                   bundler: File.exist?("#{Dir.pwd}/Gemfile")
-                 }.merge(options)
+      @options = {run_on_start: false, bundler: File.exist?("#{Dir.pwd}/Gemfile")}.merge(options)
     end
 
     def bundler?
@@ -19,7 +17,7 @@ module Guard
     end
 
     def start
-      Kernel.system(fasterer_command) if run_on_start?
+      run_fasterer if run_on_start?
       true
     end
 
@@ -32,21 +30,22 @@ module Guard
     end
 
     def run_all
-      Kernel.system(fasterer_command)
+      run_fasterer
     end
 
-    def run_on_change(_paths)
-      system(fasterer_command)
+    def run_on_change(paths)
+      run_fasterer(paths)
     end
 
     private
 
-    def fasterer_command
+    def run_fasterer(paths = [])
       cmd = []
-      cmd << 'bundle exec' if bundler?
-      cmd << 'fasterer'
+      cmd << "bundle exec" if bundler?
+      cmd << "fasterer"
+      cmd += paths unless paths.empty?
 
-      cmd.join(' ')
+      system(cmd.join(" "))
     end
   end
 end
