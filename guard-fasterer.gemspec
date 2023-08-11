@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'guard', '>= 2.13.0'
   s.add_dependency 'guard-compat', '>= 1.2.1'
-  s.add_dependency 'fasterer', '~> 0.1'
+  s.add_dependency 'fasterer'
 
   s.add_development_dependency 'bundler', '~> 1.10'
   s.add_development_dependency 'rake', '~> 10.0'
